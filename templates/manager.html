@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %} Password Manager {% endblock %}
+
+{% block content %} 
+    {% for item in values %}
+        <p>Name: {{item.name}}</p>
+        <p>Email: {{item.email}}</p>
+        <p>Password: {{item.password}}</p>
+    {% endfor %}
+
+    <form action="#" method="post">
+        <p>Name to delete</p>
+        <p><input type="text" name="nm" /></p>
+        <p><input type="submit" class="btn btn-danger" value="Delete "/></p>
+    
+    </form>
+
+
+{% endblock %}
