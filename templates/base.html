@@ -16,15 +16,29 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              <a class="nav-link active" aria-current="page" href="index">Home</a>
-              <a class="nav-link" href="manager">Stored Passwords</a>
-              <a class="nav-link" href="login">Login</a>
-              <a class="nav-link" href="logout">Logout</a>
+              <a class="nav-link active" aria-current="page" href="{{url_for('home')}}">Home</a>
+              
+              {% if current_user.is_authenticated  %}
+              <a class="nav-link" href="{{url_for('manager')}}">Stored Passwords</a>
+              <a class="nav-link"  href="{{url_for('logout')}}">Logout</a>
+              {% else  %}
+              <a class="nav-link" href="{{url_for('login')}}">Login</a>
+              <a class="nav-link" href="{{url_for('register')}}">Register</a>
+              {% endif %}
             </div>
           </div>
+          
         </div>
       </nav>
-    
+      <div class="container-sm">
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          {{message}}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </div>
+            
+      {% endfor %}
       <div class="container-fluid">
         {% block content %}
         {% endblock %}

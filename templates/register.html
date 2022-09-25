@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Login Page{% endblock %}
+
+{% block content %}
+    <div class="container-sm shadow p-3 mb-5 bg-body rounded">
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            {{ form.username (class="form-control")}}
+            {{ form.password (class="form-control") }}
+            {{ form.submit(class="btn btn-secondary") }}
+        </form>
+        <p>Already have an account?</p>
+        <a type="button" class="btn btn-info" href="{{url_for('login')}}">Login </a>
+    </div>
+
+{% endblock %}

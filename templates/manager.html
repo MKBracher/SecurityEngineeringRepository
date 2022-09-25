@@ -1,19 +1,52 @@
-{% extends "base.html" %}
-{% block title %} Password Manager {% endblock %}
+{% extends "base.html" %} -->
+{% block title %} Password Manager {% endblock %} -->
+
+
 
 {% block content %} 
-    {% for item in values %}
-        <p>Name: {{item.name}}</p>
-        <p>Email: {{item.email}}</p>
-        <p>Password: {{item.password}}</p>
-    {% endfor %}
 
-    <form action="#" method="post">
+    <div class="container-sm shadow p-3 mb-5 bg-body rounded">
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+                {{ form.website (class="form-control")}}
+                {{ form.login (class="form-control") }}
+                {{ form.password (class="form-control") }}
+                {{ form.submit(class="btn btn-secondary") }}
+        </form>
+        <a type="button" class="btn btn-info" href="{{url_for('manager')}}">Register </a>
+    </div>
+
+    <div class="container-sm shadow p-3 mb-5 bg-body rounded">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Website</th>
+                <th scope="col">Login</th>
+                <th scope="col">Password</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for item in values %}
+                <tr>
+                <th scope="row">{{item.id}}</th>
+                    <td> {{item.website}}</td>
+                    <td> {{item.login}}</td>
+                    <td> {{item.password}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    
+
+    <!-- <form action="#" method="post">
         <p>Name to delete</p>
         <p><input type="text" name="nm" /></p>
         <p><input type="submit" class="btn btn-danger" value="Delete "/></p>
     
-    </form>
+    </form> -->
 
 
-{% endblock %}
+{% endblock %} 
