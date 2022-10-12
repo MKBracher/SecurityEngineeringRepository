@@ -2,7 +2,7 @@ from datetime import timedelta
 import email
 from flask_sqlalchemy import SQLAlchemy
 from unicodedata import name
-from flask import Flask, Blueprint, render_template, request, jsonify, redirect, url_for, session, flash
+from flask import Flask, Blueprint, render_template, request, jsonify, redirect, url_for, session, flash, g
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
@@ -44,6 +44,7 @@ class Credentials(db.Model):
     website = db.Column(db.String(100))
     login = db.Column(db.String(100))
     password = db.Column(db.String(100))
+    userId = db.Column(db.Integer)
 
 class RegisterForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(
@@ -94,16 +95,17 @@ def home():
 @login_required
 def manager():
     form = AddCredentialsForm()
+    
 
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data)
-        new_credentials = Credentials(login = form.login.data, password=hashed_password, website=form.website.data)
+        #hashed_password = bcrypt.generate_password_hash(form.password.data)
+        new_credentials = Credentials(login = form.login.data, password=form.password.data, website=form.website.data, userId = current_user.id)
         db.session.add(new_credentials)
         db.session.commit()
         flash("Login Added")
         return redirect(url_for('manager'))
             
-    return render_template("manager.html", form=form, values=Credentials.query.all())
+    return render_template("manager.html", form=form, values=Credentials.query.filter_by(userId=current_user.id).all())
 
 @app.route("/login",methods=["POST", "GET"])
 def login():
